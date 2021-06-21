@@ -17,7 +17,8 @@ router.post("/signup", (req, res) => {
 
   // console.log(`name is: ${name} \nemail:${email} `);
   if (!email || !name || !password) {
-    return res.status(422).json({ error: "Please add all the fields" });
+    console.log("Please add all the fields");
+    return res.json({ error: "Please add all the fields" });
   }
 
   //finding is there any existing user with this email
@@ -25,9 +26,7 @@ router.post("/signup", (req, res) => {
     .then((userExist) => {
       //condition if user exist then show an error
       if (userExist) {
-        return res
-          .status(422)
-          .json({ error: "user with that name already exist" });
+        return res.json({ error: "user with that name already exist" });
       }
       //encrypting password
       bcrypt.hash(password, 12).then((hashedpassword) => {
@@ -43,6 +42,7 @@ router.post("/signup", (req, res) => {
           .save()
           .then((user) => {
             //callback function after saving an user
+            console.log("saved successfuly");
             res.json({ message: "saved successfuly" });
           })
           .catch((err) => {

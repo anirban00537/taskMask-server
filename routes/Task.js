@@ -8,8 +8,9 @@ const {
 const router = express.Router();
 
 router.get("/:id", getTasks);
+// router.get("/", getTasks);
 router.post("/", createTask);
-router.patch("/", UpdateTask);
+router.patch("/:id/:status", UpdateTask);
 router.delete("/:id", deleteTask);
 
 module.exports = router;
