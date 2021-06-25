@@ -1,17 +1,35 @@
 const mongoose = require("mongoose");
 
-const RoomSchema = mongoose.Schema({
-  roomName: {
-    type: String,
-    required: true,
+const RoomSchema = mongoose.Schema(
+  {
+    roomName: {
+      type: String,
+      required: true,
+    },
+    roomAdminID: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "user",
+    },
+    roomMembers: [
+      {
+        userID: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "user",
+        },
+      },
+    ],
+    roomTasks: [
+      {
+        roomTaskID: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "RoomTask",
+        },
+      },
+    ],
   },
-  roomAdminID: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-  },
-  roomMembers: [{ userID: mongoose.Schema.Types.ObjectId, ref: "user" }],
-  roomTasks: [{ roomTaskID: mongoose.Schema.Types.ObjectId, ref: "roomTask" }],
-});
+  { timestamps: true }
+);
 
 const Room = mongoose.model("Room", RoomSchema);
 
