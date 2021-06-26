@@ -36,18 +36,44 @@ exports.getRoomInfoByRoomID = getRoomInfoByRoomID = async (req, res) => {
     console.log(error);
   }
 };
-exports.updateRoom = updateRoomTask = async (req, res) => {
+exports.updateRoom = updateRoom = async (req, res) => {
   const { roomid } = req.params;
   const updatedRoomData = req.body;
 
   try {
-    const updatedRoom = await RoomModel.findByIdAndUpdate(
-      roomid,
-      updatedRoomData,
+    await RoomModel.findOneAndUpdate(
+      { _id: roomid },
+      { $push: { roomMembers: updatedRoomData } },
       {
         new: true,
       }
     );
-    res.status(200).json(updatedRoom);
+    const roomData = await RoomModel.find({ _id: roomid })
+      .populate("roomAdminID")
+      .populate({ path: "roomMembers", populate: { path: "userID" } });
+    res.status(200).json(roomData);
   } catch (error) {}
+};
+
+exports.removeMemberFromRoom = removeMemberFromRoom = async (req, res) => {
+  const { roomid } = req.params;
+  const roomData = req.body;
+
+  try {
+    const RoomData = await RoomModel.findByIdAndUpdate(
+      { _id: roomid },
+      {
+        roomMembers: roomData,
+      },
+      {
+        new: true,
+      }
+    );
+    const roomsData = await RoomModel.find({ _id: roomid })
+      .populate("roomAdminID")
+      .populate({ path: "roomMembers", populate: { path: "userID" } });
+    res.status(200).json(roomsData);
+  } catch (error) {
+    console.log(error);
+  }
 };
