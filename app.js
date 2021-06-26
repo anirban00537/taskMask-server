@@ -8,6 +8,7 @@ const Room = require("./routes/Room.js");
 const RoomTask = require("./routes/RoomTask.js");
 const user = require("./routes/user.js");
 const JoinedRoom = require("./routes/JoinedRoom.js");
+const JoinedRoomTask = require("./routes/JoinedRoomTask.js");
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
@@ -17,6 +18,7 @@ app.use("/room", Room);
 app.use("/roomtask", RoomTask);
 app.use("/user", user);
 app.use("/joinedroom", JoinedRoom);
+app.use("/joinedroomtask", JoinedRoomTask);
 const connctionUrl =
   "mongodb+srv://anirban00537:anirban00537@cluster0.rsvp4.mongodb.net/taskmanagement?retryWrites=true&w=majority";
 mongoose
