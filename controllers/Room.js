@@ -52,7 +52,7 @@ exports.updateRoom = updateRoom = async (req, res) => {
       .populate("roomAdminID")
       .populate({ path: "roomMembers", populate: { path: "userID" } });
     res.status(200).json(roomData);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 exports.removeMemberFromRoom = removeMemberFromRoom = async (req, res) => {
@@ -77,3 +77,10 @@ exports.removeMemberFromRoom = removeMemberFromRoom = async (req, res) => {
     console.log(error);
   }
 };
+
+// delete room by id
+exports.deleteRoom = deleteRoom = async (req, res) => {
+  const { id } = req.params;
+  await RoomModel.findByIdAndDelete(id);
+  res.status(200).json(id);
+}
