@@ -17,3 +17,17 @@ exports.getRoomTaskByuserAndRoomID = getRoomTaskByuserAndRoomID = async (
     console.log(error);
   }
 };
+
+exports.updateJoinedRooTask = updateJoinedRooTask = async (req, res) => {
+  const { taskID } = req.params;
+  const JoinedRoomTask = req.body;
+  try {
+    const updatedJoinedRoomTask = await RoomTask.findByIdAndUpdate(
+      taskID,
+      JoinedRoomTask,
+      { new: true }
+    );
+    res.status(200).json(updatedJoinedRoomTask);
+    console.log(JoinedRoomTask);
+  } catch (error) {}
+};
